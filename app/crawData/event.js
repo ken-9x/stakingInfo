@@ -9,9 +9,7 @@ const stakeEvent = ['Deposit'];
 const time = 1800000;
 
 function sleep(ms) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, ms);
-    });
+    setTimeout(() => {}, ms);
 }
 
 async function processBlocks(fromBlockNumber) {

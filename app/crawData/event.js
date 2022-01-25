@@ -7,6 +7,13 @@ const contract = new web3.eth.Contract(ABI, 'xdc814Df77De4723DdF06F42fF8557f450D
 const stakingInfo = db.stakingInfo;
 const stakeEvent = ['Deposit'];
 const time = 1800000;
+
+function sleep(ms) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
+}
+
 async function processBlocks(fromBlockNumber) {
     console.log(`processBlocks BEGIN_PROCESS_BLOCKS: ${fromBlockNumber} `);
     const eventLogs = await contract.getPastEvents(
@@ -26,8 +33,16 @@ async function processBlocks(fromBlockNumber) {
 
 
 const getData = async (formBlock = 0) => {
+    await sleep(2000);
+    let latestBlock = await web3.eth.getBlockNumber();
+    
     if (!formBlock) {
         formBlock = +process.env.DEPLOY_BLOCK || 29018820
+    }
+    if (formBlock >= (latestBlock - 18)) {
+        updateScore()
+        setTimeout(getData, 600000);
+        return;
     }
     const listEvent = await processBlocks(formBlock);
     saveData(listEvent).then(() => {
@@ -53,8 +68,7 @@ const saveData = async (listEvent) => {
     }
 
 }
-
-getData();
+setTimeout(getData, 2000);
 
 function cron(ms, fn) {
     function cb() {

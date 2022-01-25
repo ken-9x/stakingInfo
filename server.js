@@ -17,4 +17,4 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
 
-require("./app/crawData/event")
+require("./app/crawlData/event")

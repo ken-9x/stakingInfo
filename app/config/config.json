@@ -1,0 +1,43 @@
+{
+  "development": {
+  "username": "globiance_db",
+      "password": "M4lt4!23!",
+      "database": "globiance_staging",
+      "host": "95.211.7.220",
+      "port": "14433",
+      "dialect": "mssql",
+      "logging": false,
+      "operatorsAliases": 0,
+      "dialectOptions": {
+    "options": {
+      "requestTimeout": 15000,
+      "cryptoCredentialsDetails": {
+        "minVersion": "TLSv1"
+      }
+    }
+  },
+  "pool": {
+    "max": 500,
+        "min": 0,
+        "idle": 20000,
+        "acquire": 100000,
+        "evict": 20000
+  }
+},
+  "test": {
+  "username": "root",
+      "password": null,
+      "database": "database_test",
+      "host": "127.0.0.1",
+      "dialect": "mysql",
+      "operatorsAliases": false
+},
+  "production": {
+  "username": "root",
+      "password": null,
+      "database": "database_production",
+      "host": "127.0.0.1",
+      "dialect": "mysql",
+      "operatorsAliases": false
+}
+}

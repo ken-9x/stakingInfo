@@ -12,6 +12,7 @@ app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true })); 
 
 require("./app/routes/stakingInfo.routes")(app);
+require("./app/routes/poolLiquidity.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

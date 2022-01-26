@@ -1,15 +1,15 @@
 const db = require("../models");
 const stakingInfo = db.stakingInfo;
 
-exports.create = async (data) => {
-    const foundItem = await stakingInfo.findOne({ where: { user_address: data.user_address , plq_id: data.plq_id }});
+exports.createStakingInfo = async (data) => {
+    const foundItem = await stakingInfo.findOne({ where: { user_address: data.user_address , plq_id: data.plq_id } });
     if (!foundItem) {
         await stakingInfo.create(data);
     }
 };
 
-exports.update = async (data) => {
-    const foundItem = await stakingInfo.findOne({ where: { user_address: data.user_address , plq_id: data.plq_id }});
+exports.UpdateStakingInfo = async (data) => {
+    const foundItem = await stakingInfo.findOne({ where: { user_address: data.user_address , plq_id: data.plq_id } });
     if (foundItem) {
         await stakingInfo.update(data, { where: { user_address: data.user_address , plq_id: data.plq_id } }).catch(e => {
            console.log(e)

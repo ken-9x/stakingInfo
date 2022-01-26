@@ -1,10 +1,8 @@
-const Web3 = require('xdc3');
 const ABI = require('../abi/contract.json');
-const { update } = require("../controllers/stakingInfo.controller");
-const { RPC, CONTRACT_ADDRESS } = require("../constants/constant");
+const { UpdateStakingInfo } = require("../controllers/stakingInfo.controller");
+const { CONTRACT_ADDRESS } = require("../constants/constant");
 const db = require("../models");
-const web3 = new Web3(RPC);
-const contract = new web3.eth.Contract(ABI, CONTRACT_ADDRESS);
+const { connectContract} = require("../utils/connectContract");
 const stakingInfo = db.stakingInfo;
 const time = 1800000;
 
@@ -21,6 +19,7 @@ function cron(ms, fn) {
 
 const updateScore = async () => {
     console.log('cron updateScore start');
+    const contract = await connectContract(ABI, CONTRACT_ADDRESS);
     let data = await stakingInfo.findAll();
     let dataLength = data.length;
     if (!dataLength) {
@@ -31,7 +30,7 @@ const updateScore = async () => {
             let { plq_id, user_address } = info;
             let data = await contract.methods.getUserScore(info.plq_id, info.user_address).call();
             data /= Math.pow(10, 18);
-            await update({plq_id, user_address, score: data});
+            await UpdateStakingInfo({plq_id, user_address, score: data});
         })
         await Promise.all(requests).catch(e => console.log(`Error in  ${i} - ${e}`));
     }

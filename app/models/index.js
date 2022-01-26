@@ -8,5 +8,6 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.stakingInfo = require("./stakingInfo.model.js")(sequelize, Sequelize);
+db.pool = require("./poolLiquidity.model.js")(sequelize, Sequelize);
 
 module.exports = db;

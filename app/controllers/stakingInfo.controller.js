@@ -19,11 +19,16 @@ exports.update = async (data) => {
 
 
 exports.findAll = (req, res) => {
-    const {page, size} = req.query;
-    console.log(req.query)
+    const { page, size, plqId } = req.query;
     const {limit, offset} = this.getPagination(page, size);
-
-    stakingInfo.findAndCountAll({limit, offset,  order: [['score', 'DESC']]})
+    let condition = { order: [['score', 'DESC']] }
+    if (!!plqId) {
+        condition = {
+            ...condition,
+            where: { plq_id: plqId }
+        }
+    }
+    stakingInfo.findAndCountAll({limit, offset, ...condition})
         .then(data => {
             const response = this.getPagingData(data, page, limit);
             res.send(response);

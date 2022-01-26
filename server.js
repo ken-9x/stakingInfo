@@ -1,12 +1,10 @@
 const express = require("express");
-let dotenv = require('dotenv')
+const dotenv = require('dotenv')
 dotenv.config({ override: true })
 const app = express();
-
 require("./app/models");
 
 app.use(express.json());
-
 app.use(express.urlencoded({ extended: true })); 
 
 require("./app/routes/stakingInfo.routes")(app);
@@ -17,4 +15,3 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
 
-require("./app/crawlData/event")

@@ -46,7 +46,7 @@ exports.findAll = async (req, res) => {
     stakingInfo.findAndCountAll({...condition, limit, offset })
         .then(data => {
             data.rows = data.rows.map((value => {
-                let {pool_liquidity, ...newValue } = value.dataValues;
+                let { pool_liquidity, ...newValue } = value.dataValues;
                 return {
                     ...newValue,
                     name: pool_liquidity ? pool_liquidity.name : null

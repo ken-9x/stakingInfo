@@ -26,7 +26,11 @@ module.exports = {
         type: Sequelize.DECIMAL(38, 12),
         defaultValue: 0
       },
-
+      rank: {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+        defaultValue: 0
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

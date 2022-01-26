@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  return sequelize.define("pool_liquidities", {
+  const poolLiquidity = sequelize.define("pool_liquidities", {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -19,5 +19,14 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
     },
-  });
+  }, {
+        tableName: 'pool_liquidities',
+      });
+  poolLiquidity.associate = function(models) {
+    poolLiquidity.hasMany(models.stakingInfos,{
+      sourceKey: 'pid',
+      foreignKey: 'plq_id',
+    })
+  };
+  return poolLiquidity;
 };

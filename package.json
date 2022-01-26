@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "crawl-event": "node app/script/event.js",
-    "update-score": "node app/script/update-score.js"
+    "update-score": "node app/script/update-score.js",
+    "update-rank": "node app/script/update-rank.js"
   },
   "keywords": [
     "node js"

@@ -13,7 +13,7 @@ exports.createStakingInfo = async (data) => {
 exports.UpdateStakingInfo = async (data) => {
     const foundItem = await stakingInfo.findOne({ where: { user_address: data.user_address , plq_id: data.plq_id } });
     if (foundItem) {
-        await stakingInfo.update(data, { where: { user_address: data.user_address , plq_id: data.plq_id } }).catch(e => {
+        await stakingInfo.update(data, { where: { id: data.id } }).catch(e => {
            console.log(e)
        });
     }
@@ -23,12 +23,10 @@ exports.UpdateStakingInfo = async (data) => {
 exports.findAll = async (req, res) => {
     const { page, size, plq_name } = req.query;
     const { limit, offset } = this.getPagination(page, size);
-    let condition = { order: [['score', 'DESC']] };
-    let dataPool = await pool.findAll();
-    let dataName = {};
-    dataPool.map((value) => {
-        dataName[value.pid] = value.name
-    });
+    let condition = {
+        include: [{ model: pool, attributes: ['name'] }],
+        order: [['score', 'DESC']]
+    };
     if (!!plq_name) {
        let plqIds = await pool.findAll({
             attributes: ['pid'],
@@ -45,15 +43,8 @@ exports.findAll = async (req, res) => {
             };
         }
     }
-    
-    stakingInfo.findAndCountAll({...condition, limit, offset, })
+    stakingInfo.findAndCountAll({...condition, limit, offset })
         .then(data => {
-            data.rows = data.rows.map((value => {
-                return {
-                    ...value.dataValues,
-                    name: dataName[value.plq_id]
-                }
-            }))
             const response = this.getPagingData(data, page, limit);
             res.send(response);
         })

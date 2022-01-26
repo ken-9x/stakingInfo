@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  return sequelize.define("stakingInfos", {
+  const stakingInfo = sequelize.define("stakingInfos", {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -18,6 +18,18 @@ module.exports = (sequelize, Sequelize) => {
     score: {
       type: Sequelize.FLOAT,
       allowNull: true,
+    },
+    rank: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
     }
   });
+  stakingInfo.associate = function(models) {
+    console.log(stakingInfo)
+    stakingInfo.belongsTo(models.pool_liquidities,{
+      foreignKey: 'plq_id',
+      targetKey: 'pid',
+    })
+  };
+  return stakingInfo;
 };

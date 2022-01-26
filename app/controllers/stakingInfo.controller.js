@@ -24,7 +24,11 @@ exports.findAll = async (req, res) => {
     const { page, size, plq_name } = req.query;
     const { limit, offset } = this.getPagination(page, size);
     let condition = { order: [['score', 'DESC']] };
-    
+    let dataPool = await pool.findAll();
+    let dataName = {};
+    dataPool.map((value) => {
+        dataName[value.pid] = value.name
+    });
     if (!!plq_name) {
        let plqIds = await pool.findAll({
             attributes: ['pid'],
@@ -44,6 +48,12 @@ exports.findAll = async (req, res) => {
     
     stakingInfo.findAndCountAll({...condition, limit, offset, })
         .then(data => {
+            data.rows = data.rows.map((value => {
+                return {
+                    ...value.dataValues,
+                    name: dataName[value.plq_id]
+                }
+            }))
             const response = this.getPagingData(data, page, limit);
             res.send(response);
         })

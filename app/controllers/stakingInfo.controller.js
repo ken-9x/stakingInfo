@@ -21,17 +21,17 @@ exports.UpdateStakingInfo = async (data) => {
 
 
 exports.findAll = async (req, res) => {
-    const { page, size, plq_name } = req.query;
+    const { page, size, name } = req.query;
     const { limit, offset } = this.getPagination(page, size);
     let condition = {
         include: [{ model: pool, attributes: ['name'] }],
         order: [['score', 'DESC']]
     };
-    if (!!plq_name) {
+    if (!!name) {
        let plqIds = await pool.findAll({
             attributes: ['pid'],
             where: {
-                name: { [Op.like]: `${plq_name}%` }
+                name: { [Op.like]: `${name}%` }
             },
         });
 

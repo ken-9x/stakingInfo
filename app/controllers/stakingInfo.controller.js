@@ -1,5 +1,7 @@
 const db = require("../models");
+const {Op} = require("sequelize");
 const stakingInfo = db.stakingInfo;
+const pool = db.pool;
 
 exports.createStakingInfo = async (data) => {
     const foundItem = await stakingInfo.findOne({ where: { user_address: data.user_address , plq_id: data.plq_id } });
@@ -18,17 +20,29 @@ exports.UpdateStakingInfo = async (data) => {
 };
 
 
-exports.findAll = (req, res) => {
-    const { page, size, plqId } = req.query;
-    const {limit, offset} = this.getPagination(page, size);
-    let condition = { order: [['score', 'DESC']] }
-    if (!!plqId) {
-        condition = {
-            ...condition,
-            where: { plq_id: plqId }
+exports.findAll = async (req, res) => {
+    const { page, size, plq_name } = req.query;
+    const { limit, offset } = this.getPagination(page, size);
+    let condition = { order: [['score', 'DESC']] };
+    
+    if (!!plq_name) {
+       let plqIds = await pool.findAll({
+            attributes: ['pid'],
+            where: {
+                name: { [Op.like]: `${plq_name}%` }
+            },
+        });
+
+        if (plqIds.length) {
+            plqIds = plqIds.map((data) => data.pid);
+            condition = {
+                ...condition,
+                where: { plq_id: plqIds }
+            };
         }
     }
-    stakingInfo.findAndCountAll({limit, offset, ...condition})
+    
+    stakingInfo.findAndCountAll({...condition, limit, offset, })
         .then(data => {
             const response = this.getPagingData(data, page, limit);
             res.send(response);

@@ -24,7 +24,7 @@ exports.findAll = async (req, res) => {
     const { page, size, name } = req.query;
     const { limit, offset } = this.getPagination(page, size);
     let condition = {
-        include: [{ model: pool, attributes: ['name'] }],
+        include: [{ model: pool, attributes: ['name', 'lp_token'] }],
         order: [['score', 'DESC']]
     };
     if (!!name) {
@@ -49,7 +49,8 @@ exports.findAll = async (req, res) => {
                 let { pool_liquidity, ...newValue } = value.dataValues;
                 return {
                     ...newValue,
-                    name: pool_liquidity ? pool_liquidity.name : null
+                    name: pool_liquidity ? pool_liquidity.name : null,
+                    pool_address: pool_liquidity ? pool_liquidity.lp_token : null
                 }
             }))
             const response = this.getPagingData(data, page, limit);

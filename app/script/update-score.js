@@ -34,6 +34,8 @@ const updateScore = async () => {
         })
         await Promise.all(requests).catch(e => console.log(`Error in  ${i} - ${e}`));
     }
+    console.log('The process will run again in 10 minutes');
 }
 
 cron(time, updateScore);
+updateScore();

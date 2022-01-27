@@ -22,10 +22,12 @@ const updateRankStaking = async () => {
         return;
     }
     for (let i = 0; i < dataLength; i += 1) {
-        let {id, plq_id, user_address} = data[i];
-        let rank = (i + 1)
-        await UpdateStakingInfo({id, rank, plq_id, user_address});
+        let { plq_id, user_address } = data[i];
+        let rank = (i + 1);
+        await UpdateStakingInfo({ rank, plq_id, user_address });
     }
+    console.log('The process will run again in 10 minutes');
 }
 
 cron(time, updateRankStaking);
+updateRankStaking();

@@ -20,4 +20,4 @@ async function getTokenSymbol(contract) {
     return await contract.methods.symbol().call();
 }
 
-module.exports = {connectContract, getTokenInPair, getTokenSymbol};
+module.exports = { connectContract, getTokenInPair, getTokenSymbol };

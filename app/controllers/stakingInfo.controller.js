@@ -5,7 +5,9 @@ const pool = db.pool;
 
 exports.createStakingInfo = async (data) => {
     const foundItem = await stakingInfo.findOne({ where: { user_address: data.user_address , plq_id: data.plq_id } });
+    console.log(foundItem, 'foundItemfoundItemfoundItem')
     if (!foundItem) {
+        console.log(foundItem, 'foundItemfoundItemfoundItem111')
         await stakingInfo.create(data);
     }
 };
@@ -13,7 +15,7 @@ exports.createStakingInfo = async (data) => {
 exports.UpdateStakingInfo = async (data) => {
     const foundItem = await stakingInfo.findOne({ where: { user_address: data.user_address , plq_id: data.plq_id } });
     if (foundItem) {
-        await stakingInfo.update(data, { where: { id: data.id } }).catch(e => {
+        await stakingInfo.update(data, { where: { id: foundItem.id } }).catch(e => {
            console.log(e)
        });
     }

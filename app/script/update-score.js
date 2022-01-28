@@ -4,7 +4,7 @@ const { CONTRACT_ADDRESS } = require("../constants/constant");
 const db = require("../models");
 const { connectContract} = require("../utils/connectContract");
 const stakingInfo = db.stakingInfo;
-const time = 1800000;
+const time = 300000;
 
 function cron(ms, fn) {
     function cb() {
@@ -34,7 +34,7 @@ const updateScore = async () => {
         })
         await Promise.all(requests).catch(e => console.log(`Error in  ${i} - ${e}`));
     }
-    console.log('The process will run again in 10 minutes');
+    console.log('The process will run again in 5 minutes');
 }
 
 cron(time, updateScore);

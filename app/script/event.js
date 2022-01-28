@@ -7,7 +7,7 @@ const { eventAction } = require("../utils/eventAction");
 const { connectContract } = require("../utils/connectContract");
 const web3 = new Web3(RPC);
 const filterEvent = [EVENT.DEPOSIT, EVENT.ADD_POOL];
-const numberBlock = 1000;
+const numberBlock = 2000;
 
 function sleep(ms) {
     setTimeout(() => {}, ms);

@@ -1,7 +1,7 @@
 const { UpdateStakingInfo } = require("../controllers/stakingInfo.controller");
 const db = require("../models");
 const stakingInfo = db.stakingInfo;
-const time = 900000;
+const time = 420000;
 
 function cron(ms, fn) {
     function cb() {
@@ -26,7 +26,7 @@ const updateRankStaking = async () => {
         let rank = (i + 1);
         await UpdateStakingInfo({ rank, plq_id, user_address });
     }
-    console.log('The process will run again in 10 minutes');
+    console.log('The process will run again in 7 minutes');
 }
 
 cron(time, updateRankStaking);

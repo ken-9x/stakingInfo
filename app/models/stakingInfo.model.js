@@ -25,7 +25,6 @@ module.exports = (sequelize, Sequelize) => {
     }
   });
   stakingInfo.associate = function(models) {
-    console.log(stakingInfo)
     stakingInfo.belongsTo(models.pool_liquidities,{
       foreignKey: 'plq_id',
       targetKey: 'pid',

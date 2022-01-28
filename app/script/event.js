@@ -37,7 +37,7 @@ const getData = async (formBlock = 0) => {
     const latestBlock = await web3.eth.getBlockNumber();
     
     if (!formBlock) {
-        formBlock = +process.env.DEPLOY_BLOCK
+        formBlock = +process.env.DEPLOY_BLOCK - (numberBlock * 2);
     }
     if (formBlock >= (latestBlock - 18)) {
         setTimeout(getData, 600000);
